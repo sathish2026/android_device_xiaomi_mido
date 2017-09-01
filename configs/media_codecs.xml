@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!-- Copyright (C) 2013 The Android Open Source Project
-     Copyright (C) 2015-2016 The Linux Foundation. All rights reserved.
-     Not a contribution.
+     Copyright (C) 2015 The Linux Foundation. All rights reserved.
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -130,7 +129,6 @@ Only the three quirks included above are recognized at this point:
             <Limit name="blocks-per-second" min="1" max="972000" />
             <Limit name="bitrate" range="1-100000000" />
             <Limit name="concurrent-instances" max="16" />
-            <Feature name="intra-refresh" />
         </MediaCodec>
         <MediaCodec name="OMX.qcom.video.encoder.avc" type="video/avc" >
             <Quirk name="requires-allocate-on-input-ports" />
@@ -142,7 +140,6 @@ Only the three quirks included above are recognized at this point:
             <Limit name="blocks-per-second" min="1" max="972000" />
             <Limit name="bitrate" range="1-100000000" />
             <Limit name="concurrent-instances" max="16" />
-            <Feature name="intra-refresh" />
         </MediaCodec>
         <MediaCodec name="OMX.qcom.video.encoder.mpeg4" type="video/mp4v-es" >
             <Quirk name="requires-allocate-on-input-ports" />
@@ -176,10 +173,18 @@ Only the three quirks included above are recognized at this point:
             <Limit name="blocks-per-second" min="1" max="244800" />
             <Limit name="bitrate" range="1-40000000" />
             <Limit name="concurrent-instances" max="16" />
-            <Feature name="intra-refresh" />
         </MediaCodec>
     </Encoders>
     <Decoders>
+        <!-- Audio Hardware  -->
+        <!-- Audio Software  -->
+        <MediaCodec name="OMX.qcom.audio.decoder.Qcelp13" type="audio/qcelp" >
+            <Quirk name="requires-global-flush" />
+        </MediaCodec>
+        <MediaCodec name="OMX.qcom.audio.decoder.evrc" type="audio/evrc" >
+            <Quirk name="requires-global-flush" />
+        </MediaCodec>
+        <MediaCodec name="OMX.qti.audio.decoder.flac" type="audio/flac" />
         <!-- Video Hardware  -->
         <MediaCodec name="OMX.qcom.video.decoder.avc" type="video/avc" >
             <Quirk name="requires-allocate-on-input-ports" />
@@ -225,7 +230,7 @@ Only the three quirks included above are recognized at this point:
             <Limit name="bitrate" range="1-40000000" />
             <Feature name="adaptive-playback" />
             <Feature name="secure-playback" required="true" />
-            <Limit name="concurrent-instances" max="10" />
+            <Limit name="concurrent-instances" max="7" />
         </MediaCodec>
         <MediaCodec name="OMX.qcom.video.decoder.mpeg4" type="video/mp4v-es" >
             <Quirk name="requires-allocate-on-input-ports" />
@@ -375,5 +380,4 @@ Only the three quirks included above are recognized at this point:
         </MediaCodec>
     </Decoders>
     <Include href="media_codecs_google_video.xml" />
-    <Include href="media_codecs_ffmpeg.xml" />
 </MediaCodecs>
