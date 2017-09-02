@@ -105,10 +105,10 @@ PRODUCT_PACKAGES += \
     android.hardware.bluetooth@1.0-impl
 
 # Camera
-PRODUCT_PACKAGES += \
-    camera.msm8953 \
-    libmm-qcamera \
-    Snap
+#PRODUCT_PACKAGES += \
+    #camera.msm8953 \
+    #libmm-qcamera \
+    #Snap
 
 # Consumerir
 PRODUCT_PACKAGES += \
