@@ -128,6 +128,8 @@ on boot
 
     chmod 0444 /sys/devices/platform/msm_hsusb/gadget/usb_state
 
+    setprop ro.qualcomm.bt.hci_transport smd
+
     #For bridgemgr daemon to inform the USB driver of the correct transport
     chown radio radio /sys/class/android_usb/f_rmnet_smd_sdio/transport
 
@@ -307,9 +309,6 @@ on post-fs-data
     mkdir /data/fota 0771
     chown system system /data/fota
 
-    #Create directory for hostapd
-    mkdir /data/hostapd 0770 system wifi
-
     # Create /data/time folder for time-services
     mkdir /data/time/ 0700 system system
 
@@ -327,26 +326,6 @@ on post-fs-data
     #Create FM dir for patchdownloader
     mkdir /data/misc/fm 0770 system system
     chmod 0770 /data/misc/fm
-
-    #Create folder for mm-qcamera-daemon
-    mkdir /data/camera 0770 media camera
-
-    #Create PERFD deamon related dirs
-    mkdir /data/system/perfd 0770 root system
-    chmod 2770 /data/system/perfd
-
-    # Sensor
-    mkdir /persist/sensors 0775 system system
-    chmod 664 /persist/sensors/sensors_settings
-    chown system root /persist/sensors/sensors_settings
-
-    # qti-logkit data
-    mkdir /data/misc/qti-logkit/ 0771 system system
-    mkdir /data/misc/qti-logkit/shared-privileged/ 2770 system system
-    mkdir /data/misc/qti-logkit/shared-public/ 2770 system diag
-    mkdir /data/misc/qti-logkit/socket-privileged/ 2770 system system
-    mkdir /data/misc/qti-logkit/socket-public/ 2750 system diag
-    mkdir /data/misc/qti-logkit/logdata/ 2750 system shell
 
     # RIDL data
     mkdir /data/misc/SelfHost/ 0710 system shell
@@ -381,6 +360,14 @@ on post-fs-data
     write /data/misc/radio/db_check_done 0
     chown radio radio /data/misc/radio/db_check_done
     chmod 0660 /data/misc/radio/db_check_done
+
+    # qti-logkit data
+    mkdir /data/misc/qti-logkit/ 0771 system system
+    mkdir /data/misc/qti-logkit/shared-privileged/ 2770 system system
+    mkdir /data/misc/qti-logkit/shared-public/ 2770 system diag
+    mkdir /data/misc/qti-logkit/socket-privileged/ 2770 system system
+    mkdir /data/misc/qti-logkit/socket-public/ 2750 system diag
+    mkdir /data/misc/qti-logkit/logdata/ 2750 system shell
 
     #Create SWAP related dirs
     mkdir /data/system/swap 0770 root system
@@ -430,7 +417,6 @@ on property:sys.boot_completed=1
 
 on property:vold.decrypt=trigger_restart_framework
     start config_bt_addr
-    start config_bluetooth
     start wcnss-service
 
 on property:persist.env.fastdorm.enabled=true
@@ -471,57 +457,14 @@ on property:wc_transport.start_hci=false
 service start_hci_filter /system/bin/wcnss_filter
     class late_start
     user bluetooth
-    group bluetooth diag
+    group bluetooth diag system wakelock
     disabled
-
-on property:wc_transport.start_root=true
-    start hci_filter_root
-
-on property:wc_transport.start_root=false
-    stop hci_filter_root
 
 service config_bt_addr /system/bin/btnvtool -O
     class core
     user bluetooth
     group bluetooth radio
     oneshot
-
-service config_bluetooth /system/bin/sh /system/etc/init.qcom.bt.sh "onboot"
-    class core
-    user root
-    oneshot
-
-service hciattach /system/bin/sh /system/etc/init.qcom.bt.sh
-    class late_start
-    user bluetooth
-    group bluetooth net_bt_admin
-    disabled
-    oneshot
-
-on property:bluetooth.hciattach=true
-    start hciattach
-
-on property:bluetooth.hciattach=false
-    setprop bluetooth.status off
-
-service qcom-sh /system/bin/sh /init.qcom.sh
-    class late_start
-    user root
-    oneshot
-
-# FM
-on property:hw.fm.init=0
-    write /sys/module/radio_iris_transport/parameters/fmsmd_set 0
-
-on property:hw.fm.init=1
-    write /sys/module/radio_iris_transport/parameters/fmsmd_set 1
-
-# QMUX must be in multiple groups to support external process connections
-service qmuxd /system/bin/qmuxd
-    class main
-    user root
-    group radio audio bluetooth gps nfc diag
-    writepid /dev/cpuset/system-background/tasks
 
 service netmgrd /system/bin/netmgrd
     class main
@@ -532,7 +475,6 @@ service ipacm-diag /system/bin/ipacm-diag
     user system
     socket ipacm_log_file dgram 660 system net_admin
     group net_admin diag
-    writepid /dev/cpuset/system-background/tasks
 
 service ipacm /system/bin/ipacm
     class main
@@ -608,17 +550,9 @@ service qcom-post-boot /system/bin/sh /system/etc/init.qcom.post_boot.sh
     user root
     disabled
     oneshot
-    group gps inet net_raw diag net_admin wifi
 
 on property:sys.boot_completed=1
     start qcom-post-boot
-
-service hostapd /system/bin/hostapd -dd /data/hostapd/hostapd.conf
-    class late_start
-    user root
-    group root
-    oneshot
-    disabled
 
 on property:ro.data.large_tcp_window_size=true
     # Adjust socket buffer to enlarge TCP receive window for high bandwidth (e.g. DO-RevB)
@@ -630,31 +564,10 @@ service ril-daemon2 /vendor/bin/hw/rild -c 2
     group radio cache inet misc audio log readproc wakelock
     capabilities BLOCK_SUSPEND NET_ADMIN NET_RAW
 
-service ril-daemon /system/bin/rild
-    class main
-    socket rild stream 660 root radio
-    socket sap_uim_socket1 stream 660 bluetooth bluetooth
-    socket rild-debug stream 660 radio system
-    user root
-    group radio cache inet misc audio sdcard_r sdcard_rw diag log net_raw
-
-service ril-daemon2 /system/bin/rild -c 2
-    class main
-    socket rild2 stream 660 root radio
-    socket rild-debug2 stream 660 radio system
-    user root
-    group radio cache inet misc audio sdcard_r sdcard_rw diag log net_raw
-
 service charger /charger
     class charger
     group system graphics
-    seclabel u:r:charger:s0
-
-service msm_irqbal_lb /system/bin/msm_irqbalance -f /system/vendor/etc/msm_irqbalance_little_big.conf
-    class core
-    user root
-    group root
-    disabled
+    seclabel u:r:healthd:s0
     writepid /dev/cpuset/system-background/tasks
 
 service qbcharger /charger -m 1
@@ -682,12 +595,13 @@ service qseeproxydaemon /system/vendor/bin/qseeproxydaemon
 on charger
     setprop persist.sys.usb.config charging
 
-service fingerprintd /system/bin/fingerprintd
+service fps_hal /vendor/bin/hw/android.hardware.biometrics.fingerprint@2.1-service
+    # "class hal" causes a race condition on some devices due to files created
+    # in /data. As a workaround, postpone startup until later in boot once
+    # /data is mounted.
     class late_start
     user system
-    group system sdcard_rw
-    system system
-    writepid /dev/cpuset/system-background/tasks
+    group system input
     disabled
 
 service gx_fpd /system/bin/gx_fpd
@@ -699,13 +613,13 @@ service gx_fpd /system/bin/gx_fpd
 on property:sys.fp.vendor=switchf
     stop gx_fpd
     setprop sys.fp.vendor searchf
-    start fingerprintd
+    start fps_hal
     setprop fpc.fp.miui.token 0
     setprop ro.boot.fpsensor fpc
     setprop ro.hardware.fingerprint searchf
 
 on property:sys.fp.onstart=1
-   start fingerprintd
+   start fps_hal
    setprop goodix.fp.miui.analyse 1
    setprop goodix.fp.miui.token 0
    setprop ro.boot.fpsensor gdx
@@ -716,3 +630,4 @@ on property:vold.decrypt=trigger_restart_min_framework
 
 on property:vold.decrypt=trigger_restart_framework
     restart time_daemon
+
