@@ -165,6 +165,7 @@ PRODUCT_COPY_FILES += \
 
 # IPA Manager
 PRODUCT_PACKAGES += \
+<<<<<<< HEAD
     ipacm \
     IPACM_cfg.xml
 
@@ -180,7 +181,14 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     lights.msm8953
 
-# Media 
+# Libshims
+PRODUCT_PACKAGES += \
+    libshims_camera \
+    libshims_get_process_name \
+    libshims_ims \
+    libshims_sensor
+
+# Media
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/media_codecs.xml:system/etc/media_codecs.xml \
     $(LOCAL_PATH)/configs/media_codecs_performance.xml:system/etc/media_codecs_performance.xml \
