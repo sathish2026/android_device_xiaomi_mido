@@ -199,7 +199,6 @@ PRODUCT_COPY_FILES += \
 
 # IPA Manager
 PRODUCT_PACKAGES += \
-<<<<<<< HEAD
     ipacm \
     IPACM_cfg.xml
 
@@ -303,6 +302,11 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     android.hardware.vibrator@1.0-impl
 
+
+# WiFi HAL
+PRODUCT_PACKAGES += \
+    android.hardware.wifi@1.0-service
+
 # Wifi
 PRODUCT_PACKAGES += \
     android.hardware.wifi@1.0-service \
@@ -310,6 +314,8 @@ PRODUCT_PACKAGES += \
     libqsap_sdk \
     libQWiFiSoftApCfg \
     libwpa_client \
+    wificond \
+    wifilogd \
     hostapd \
     dhcpcd.conf \
     wpa_supplicant \
