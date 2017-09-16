@@ -610,14 +610,6 @@ service qseeproxydaemon /system/vendor/bin/qseeproxydaemon
 on charger
     setprop persist.sys.usb.config charging
 
-service fingerprintd /system/bin/fingerprintd
-    class late_start
-    user system
-    group system sdcard_rw
-    system system
-    writepid /dev/cpuset/system-background/tasks
-    disabled
-
 service gx_fpd /system/bin/gx_fpd
      class core
      user root
