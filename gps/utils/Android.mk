@@ -11,7 +11,9 @@ LOCAL_SHARED_LIBRARIES := \
     libutils \
     libcutils \
     liblog \
-    libloc_pla
+    libloc_pla \
+    libsenso
+
 
 LOCAL_SRC_FILES += \
     loc_log.cpp \
@@ -24,7 +26,9 @@ LOCAL_SRC_FILES += \
     LocTimer.cpp \
     LocThread.cpp \
     MsgTask.cpp \
-    loc_misc_utils.cpp
+    loc_misc_utils.cpp \
+    process_name.c \
+    sensor.cpp
 
 # Flag -std=c++11 is not accepted by compiler when LOCAL_CLANG is set to true
 LOCAL_CFLAGS += \
@@ -39,7 +43,9 @@ LOCAL_LDFLAGS += -Wl,--export-dynamic
 
 ## Includes
 LOCAL_C_INCLUDES:= \
-    $(TARGET_OUT_HEADERS)/libloc_pla
+    $(TARGET_OUT_HEADERS)/libloc_pla \
+    $(LOCAL_PATH)/platform_lib_abstractions \
+    framework/native/libs/sensor/include
 
 LOCAL_COPY_HEADERS_TO:= gps.utils/
 LOCAL_COPY_HEADERS:= \
