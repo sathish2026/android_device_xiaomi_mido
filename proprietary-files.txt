@@ -1001,6 +1001,11 @@ bin/pm-service|8464165b11bb86dae87c34b7df41fe03e9444fc5
 vendor/lib/libperipheral_client.so|faa242d188556eac3eee31272c4cd35566329948
 vendor/lib64/libperipheral_client.so|fbd7d5d59afd31712c2ad5be0fea878be3ddc4da
 
+# Protobuf
+vendor/lib/libprotobuf-cpp-shit.so 
+vendor/lib64/libprotobuf-cpp-shit.so
+vendor/lib64/legacy/libprotobuf-cpp-full.so
+
 # Postprocessing - from oxygen (MiMax 2)
 framework/com.qti.snapdragon.sdk.display.jar|e6387246d96376fd832fdcf14b65e149b6333bb2
 vendor/bin/mm-pp-dpps|251b81b8534caaeda1100786e2147ee8ce3d557e
