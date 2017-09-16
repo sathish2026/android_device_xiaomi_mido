@@ -156,10 +156,6 @@ PRODUCT_PACKAGES += \
     FMRadio \
     libfmjni
 
-# Fs_config
-PRODUCT_PACKAGES += \
-    fs_config_files
-
 # GNSS HAL
 PRODUCT_PACKAGES += \
     android.hardware.gnss@1.0-impl
