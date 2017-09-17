@@ -10,10 +10,7 @@ include $(CLEAR_VARS)
 LOCAL_SHARED_LIBRARIES := \
     libutils \
     libcutils \
-    liblog \
-    libloc_pla \
-    libsenso
-
+    liblog
 
 LOCAL_SRC_FILES += \
     loc_log.cpp \
@@ -43,7 +40,6 @@ LOCAL_LDFLAGS += -Wl,--export-dynamic
 
 ## Includes
 LOCAL_C_INCLUDES:= \
-    $(TARGET_OUT_HEADERS)/libloc_pla \
     $(LOCAL_PATH)/platform_lib_abstractions \
     framework/native/libs/sensor/include
 
