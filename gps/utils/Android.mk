@@ -10,7 +10,10 @@ include $(CLEAR_VARS)
 LOCAL_SHARED_LIBRARIES := \
     libutils \
     libcutils \
-    liblog
+    liblog \
+    libbase \
+    libloc_pla \
+    libsensor
 
 LOCAL_SRC_FILES += \
     loc_log.cpp \
@@ -40,8 +43,9 @@ LOCAL_LDFLAGS += -Wl,--export-dynamic
 
 ## Includes
 LOCAL_C_INCLUDES:= \
+    $(TARGET_OUT_HEADERS)/libloc_pla \
     $(LOCAL_PATH)/platform_lib_abstractions \
-    framework/native/libs/sensor/include
+    frameworks/native/libs/sensor/include
 
 LOCAL_COPY_HEADERS_TO:= gps.utils/
 LOCAL_COPY_HEADERS:= \

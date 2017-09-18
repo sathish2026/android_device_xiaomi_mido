@@ -1,26 +1,41 @@
-
 #include <stdint.h>
 #include <sensor/Sensor.h>
 #include <sensor/SensorManager.h>
 #include <sensor/ISensorEventConnection.h>
 
+#ifdef __cplusplus
 extern "C"
 {
+#endif
 
+#if defined(__LP64__)
 extern int _ZNK7android16SensorEventQueue12enableSensorEiili(
 	void *queue, int32_t handle, int32_t samplingPeriodUs,
 	int64_t maxBatchReportLatencyUs, int reservedFlags);
+#else
+extern int _ZNK7android16SensorEventQueue12enableSensorEiixi(
+	void *queue, int32_t handle, int32_t samplingPeriodUs,
+	int maxBatchReportLatencyUs, int reservedFlags);
+#endif
 
 int _ZNK7android16SensorEventQueue12enableSensorEiiii(
 	void *queue, int32_t handle, int32_t samplingPeriodUs,
 	int maxBatchReportLatencyUs, int reservedFlags)
 {
+#if defined(__LP64__)
 	return _ZNK7android16SensorEventQueue12enableSensorEiili(
 		queue, handle, samplingPeriodUs,
 		maxBatchReportLatencyUs, reservedFlags);
+#else
+	return _ZNK7android16SensorEventQueue12enableSensorEiixi(
+		queue, handle, samplingPeriodUs,
+		maxBatchReportLatencyUs, reservedFlags);
+#endif
 }
 
+#ifdef  __cplusplus
 }
+#endif
 
 namespace android {
 
