@@ -16,10 +16,10 @@
 
 $(call inherit-product, device/xiaomi/mido/full_mido.mk)
 
-# Inherit some common Cardinal-Aosp stuff.
-$(call inherit-product, vendor/cardinal/common.mk)
+# Inherit some common Citrus-CAF stuff.
+$(call inherit-product, vendor/citrus/common.mk)
 
-PRODUCT_NAME := cardinal_mido
+PRODUCT_NAME := citrus_mido
 BOARD_VENDOR := Xiaomi
 
 PRODUCT_GMS_CLIENTID_BASE := android-xiaomi
