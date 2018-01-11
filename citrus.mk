@@ -19,6 +19,9 @@ $(call inherit-product, device/xiaomi/mido/full_mido.mk)
 # Inherit some common Citrus-CAF stuff.
 $(call inherit-product, vendor/citrus/common.mk)
 
+# To set CAF version
+$(call inherit-product, vendor/citrus/config/common_la.um.mk)
+
 PRODUCT_NAME := citrus_mido
 BOARD_VENDOR := Xiaomi
 
