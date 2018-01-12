@@ -45,6 +45,7 @@ write_headers
 write_makefiles "$MY_DIR"/proprietary-files.txt
 echo "" >> "$PRODUCTMK"
 write_makefiles "$MY_DIR"/proprietary-files-qc.txt
+write_makefiles "$MY_DIR"/proprietary-my.txt
 
 # Finish
 write_footers

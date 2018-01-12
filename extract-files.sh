@@ -35,7 +35,7 @@ fi
 . "$HELPER"
 
 # Default to sanitizing the vendor folder before extraction
-CLEAN_VENDOR=true
+CLEAN_VENDOR=false
 
 while [ "$1" != "" ]; do
     case $1 in
@@ -58,7 +58,7 @@ fi
 # Initialize the helper
 setup_vendor "$DEVICE" "$VENDOR" "$LINEAGE_ROOT" false "$CLEAN_VENDOR"
 
-extract "$MY_DIR"/proprietary-files.txt "$SRC" "$SECTION"
-extract "$MY_DIR"/proprietary-files-qc.txt "$SRC" "$SECTION"
+extract "$MY_DIR"/proprietary-my.txt "$SRC" "$SECTION"
+#extract "$MY_DIR"/proprietary-files-qc.txt "$SRC" "$SECTION"
 
 "$MY_DIR"/setup-makefiles.sh
