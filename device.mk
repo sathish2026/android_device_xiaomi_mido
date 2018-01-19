@@ -394,3 +394,6 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_BOOT_JARS += \
     telephony-ext
+
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.opengles.version=196610
