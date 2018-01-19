@@ -196,5 +196,8 @@ ro.sys.fw.trim_enable_memory=2147483648
 # Wifi
 wifi.interface=wlan0
 
+# Set color mode
+vendor.display.enable_default_color_mode=1
+
 # Maintainer
 ro.cardinal.maintainer=Sathish K
