@@ -176,6 +176,7 @@ persist.radio.sw_mbn_update=0
 persist.radio.hw_mbn_update=0
 service.qti.ims.enabled=1
 telephony.lteOnCdmaDevice=1
+persist.radio.schd.cache=3500
 
 # SdcardFs
 ro.sys.sdcardfs=true
